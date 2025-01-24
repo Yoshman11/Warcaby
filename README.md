@@ -2,7 +2,7 @@
 ## Projekt Gry w Warcaby
 
 ### Autor
-Kacper Białas
+[Twoje Imię]
 
 ### Temat Projektu
 Implementacja Gry w Warcaby z Zestawem Testów

@@ -25,7 +25,6 @@ describe('Game Integration Tests', () => {
     const squares = screen.getAllByTestId(/^square/);
     const initialBoard = screen.getAllByTestId(/^piece/);
     
-
     fireEvent.click(squares[2 * 8 + 1]);
     const validMoves = screen.getAllByTestId(/square.*valid-move/);
     expect(validMoves).toHaveLength(2);
@@ -33,7 +32,6 @@ describe('Game Integration Tests', () => {
     fireEvent.click(squares[3 * 8 + 2]);
     expect(screen.getByTestId('game-state')).toHaveTextContent('Current Player: 2');
     
-
     const newBoard = screen.getAllByTestId(/^piece/);
     expect(newBoard).toHaveLength(initialBoard.length);
   });
@@ -41,12 +39,10 @@ describe('Game Integration Tests', () => {
   it('should handle piece selection and deselection', () => {
     const squares = screen.getAllByTestId(/^square/);
     
-
     fireEvent.click(squares[2 * 8 + 1]);
     expect(screen.getByTestId('selected-piece')).toBeInTheDocument();
     expect(screen.getAllByTestId(/square.*valid-move/)).not.toHaveLength(0);
     
-
     fireEvent.click(squares[0 * 8 + 0]);
     expect(screen.queryByTestId('selected-piece')).not.toBeInTheDocument();
     expect(screen.queryAllByTestId(/square.*valid-move/)).toHaveLength(0);
@@ -57,7 +53,6 @@ describe('Game Integration Tests', () => {
     const initialPieces = screen.getAllByTestId(/^piece/);
     const initialPositions = initialPieces.map(piece => piece.parentElement?.dataset.testid);
     
-
     fireEvent.click(squares[2 * 8 + 1]);
     fireEvent.click(squares[2 * 8 + 2]);
     
@@ -87,7 +82,6 @@ describe('Game Integration Tests', () => {
   it('should enforce turn-based gameplay', () => {
     const squares = screen.getAllByTestId(/^square/);
     
-
     fireEvent.click(squares[2 * 8 + 1]);
     fireEvent.click(squares[3 * 8 + 2]);
     expect(screen.getByTestId('game-state')).toHaveTextContent('Current Player: 2');
@@ -99,13 +93,12 @@ describe('Game Integration Tests', () => {
 
   it('should highlight valid moves when selecting a piece', () => {
     const squares = screen.getAllByTestId(/^square/);
-
+    
     fireEvent.click(squares[2 * 8 + 1]);
     
     const validMoves = screen.getAllByTestId(/square.*valid-move/);
     expect(validMoves.length).toBeGreaterThan(0);
     
-
     validMoves.forEach(move => {
       const testId = move.getAttribute('data-testid') || '';
       const [_, row, col] = testId.split('-');
@@ -117,7 +110,6 @@ describe('Game Integration Tests', () => {
     const squares = screen.getAllByTestId(/^square/);
     const initialPieces = screen.getAllByTestId(/^piece/);
     
-
     fireEvent.click(squares[2 * 8 + 1]);
     fireEvent.click(squares[3 * 8 + 2]);
     fireEvent.click(squares[5 * 8 + 2]);
@@ -131,12 +123,10 @@ describe('Game Integration Tests', () => {
   it('should handle consecutive turns properly', () => {
     const squares = screen.getAllByTestId(/^square/);
     
-
     fireEvent.click(squares[2 * 8 + 1]);
     fireEvent.click(squares[3 * 8 + 2]);
     expect(screen.getByTestId('game-state')).toHaveTextContent('Current Player: 2');
     
-
     fireEvent.click(squares[5 * 8 + 2]);
     fireEvent.click(squares[4 * 8 + 3]);
     expect(screen.getByTestId('game-state')).toHaveTextContent('Current Player: 1');
@@ -144,18 +134,16 @@ describe('Game Integration Tests', () => {
 
   it('should maintain piece ownership after moves', () => {
     const squares = screen.getAllByTestId(/^square/);
-    
 
     fireEvent.click(squares[2 * 8 + 1]);
     fireEvent.click(squares[3 * 8 + 2]);
     
-
     const movedPiece = squares[3 * 8 + 2].querySelector('[data-testid^="piece"]');
     expect(movedPiece?.className).toContain('bg-red-600');
     
     fireEvent.click(squares[5 * 8 + 2]);
     fireEvent.click(squares[4 * 8 + 3]);
-    
+
     const movedPiece2 = squares[4 * 8 + 3].querySelector('[data-testid^="piece"]');
     expect(movedPiece2?.className).toContain('bg-white');
   });

@@ -84,7 +84,7 @@ export default function App() {
             while (currentRow !== position.row && currentCol !== position.col) {
               if (newBoard[currentRow][currentCol]) {
                 newBoard[currentRow][currentCol] = null;
-                break;
+                break; 
               }
               currentRow += rowStep;
               currentCol += colStep;
